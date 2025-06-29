@@ -13,7 +13,7 @@ const swaggerOptions = {
       description: 'Documentação da API Ranking',
     },
   },
-  apis: ['./src/routes/*.ts', './src/controllers/*.ts'], // ajuste os caminhos conforme necessário
+  apis: ['./src/routes/*.ts', './src/controllers/*.ts'],
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 const router = Router();
