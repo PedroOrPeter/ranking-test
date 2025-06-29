@@ -1,6 +1,6 @@
 import type { Funcionario } from '../Types/funcionario';
 
-const API_URL = 'http://localhost:3000/funcionarios';
+const API_URL = `${import.meta.env.VITE_API_URL ?? 'http://localhost:3000'}/funcionarios`;
 
 export async function getFuncionarios(): Promise<Funcionario[]> {
   const res = await fetch(API_URL);

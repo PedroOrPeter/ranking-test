@@ -38,7 +38,7 @@ const EditarFuncionarioModal: React.FC<EditarFuncionarioModalProps> = ({ isOpen,
             e.preventDefault();
             setFeedback(null);
             try {
-              const resp = await fetch(`http://localhost:3000/funcionarios/${funcionario.id}`, {
+                const resp = await fetch(`${import.meta.env.VITE_API_URL}/funcionarios/${funcionario.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nome, posicao, avatar })

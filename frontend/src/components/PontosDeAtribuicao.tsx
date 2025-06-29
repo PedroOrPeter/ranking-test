@@ -23,7 +23,7 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await fetch(`http://localhost:3000/pontuacao/${funcionario.id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/pontuacao/${funcionario.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/pontuacao';
+const API_URL = `${import.meta.env.VITE_API_URL ?? 'http://localhost:3000'}/funcionarios`;
 
 export async function deletePontuacao(id: number) {
   const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });

@@ -24,7 +24,7 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
     e.preventDefault();
     setFeedback(null);
     try {
-      const resp = await fetch('http://localhost:3000/funcionarios', {
+        const resp = await fetch(`${import.meta.env.VITE_API_URL}/funcionarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
