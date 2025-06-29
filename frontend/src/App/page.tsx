@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
-import type { Funcionario } from '../types/funcionario';
-import CardFuncionario from '../components/CardFuncionario';
+import type { Funcionario } from '../Types/funcionario';
+import CardFuncionario from '../Components/CardFuncionario';
 
 const Index = () => {
   const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
