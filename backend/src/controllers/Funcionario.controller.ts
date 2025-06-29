@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from 'express';
+import { RequestHandler } from 'express';
 import { FuncionarioService } from '../services/Funcionario.service';
 import { funcionarioSchema } from '../validators/funcionario.validator';
 
