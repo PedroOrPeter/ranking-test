@@ -8,9 +8,10 @@ interface FuncionarioItemProps {
   onAtribuir: () => void;
   onEditar: () => void;
   onExcluir: () => void;
+  ranking?: number;
 }
 
-const FuncionarioItem: React.FC<FuncionarioItemProps> = ({ funcionario, isSelected, onSelect, onAtribuir, onEditar, onExcluir }) => (
+const FuncionarioItem: React.FC<FuncionarioItemProps> = ({ funcionario, isSelected, onSelect, onAtribuir, onEditar, onExcluir, ranking }) => (
   <div
     className={`flex items-center p-5 rounded-xl transition-all hover:shadow-2xl cursor-pointer border-2 ${
       isSelected
@@ -20,6 +21,13 @@ const FuncionarioItem: React.FC<FuncionarioItemProps> = ({ funcionario, isSelect
     onClick={onSelect}
     style={isSelected ? { boxShadow: '0 0 0 4px #fbbf24, 0 8px 32px 0 rgba(251,191,36,0.15)' } : {}}
   >
+    {ranking && ranking <= 3 && (
+      <div className={`flex items-center justify-center w-8 h-8 rounded-full font-extrabold text-lg mr-4 ${
+        ranking === 1 ? 'bg-amber-400 text-white' : ranking === 2 ? 'bg-slate-300 text-slate-800' : 'bg-amber-700 text-white'
+      }`}>
+        {ranking}
+      </div>
+    )}
     <img
       src={funcionario.avatar}
       alt={funcionario.nome}
@@ -40,24 +48,26 @@ const FuncionarioItem: React.FC<FuncionarioItemProps> = ({ funcionario, isSelect
       <div className="text-3xl font-extrabold text-amber-500 drop-shadow">{funcionario.pontos}</div>
       <div className="text-xs text-slate-500 font-semibold">pontos</div>
     </div>
-    <button
-      className="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow transition-all"
-      onClick={e => { e.stopPropagation(); onAtribuir(); }}
-    >
-      Atribuir Pontos
-    </button>
-    <button
-      className="ml-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow transition-all"
-      onClick={e => { e.stopPropagation(); onEditar(); }}
-    >
-      Editar
-    </button>
-    <button
-      className="ml-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow transition-all"
-      onClick={async e => { e.stopPropagation(); onExcluir(); }}
-    >
-      Excluir
-    </button>
+    <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:ml-auto w-full sm:w-auto mt-4 sm:mt-0 sm:items-center">
+      <button
+        className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow transition-all sm:ml-2"
+        onClick={React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onAtribuir(); }, [onAtribuir])}
+      >
+        Atribuir Pontos
+      </button>
+      <button
+        className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow transition-all sm:ml-2"
+        onClick={React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onEditar(); }, [onEditar])}
+      >
+        Editar
+      </button>
+      <button
+        className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow transition-all sm:ml-2"
+        onClick={React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onExcluir(); }, [onExcluir])}
+      >
+        Excluir
+      </button>
+    </div>
   </div>
 );
 

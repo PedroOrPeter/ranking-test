@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { X, User, Briefcase } from 'lucide-react';
 
+const Feedback: React.FC<{ message: string; type?: 'success' | 'error' }> = ({ message, type = 'success' }) => (
+  <div className={`mb-4 px-4 py-2 rounded text-sm font-bold ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{message}</div>
+);
+
 interface AddModalDeFuncionarioProps {
   isOpen: boolean;
   onClose: () => void;
@@ -12,13 +16,15 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
     avatar: '',
     posicao: ''
   });
+  const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try{
-      await fetch('http://localhost:3000/funcionarios', {
+    setFeedback(null);
+    try {
+      const resp = await fetch('http://localhost:3000/funcionarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,14 +35,18 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
           posicao: formData.posicao
         })
       });
+      if (!resp.ok) {
+        throw new Error('Erro ao adicionar funcionário.');
+      }
+      setFeedback({ message: 'Funcionário adicionado com sucesso!', type: 'success' });
+      setTimeout(() => {
+        setFeedback(null);
+        onClose();
+        setFormData({ nome: '', avatar: '', posicao: '' });
+      }, 1200);
     } catch (error) {
-      console.error('Erro ao adicionar funcionário:', error);
-      alert('Erro ao adicionar funcionário. Tente novamente.');
-      return;
+      setFeedback({ message: 'Erro ao adicionar funcionário. Tente novamente.', type: 'error' });
     }
-    alert('Funcionário adicionado com sucesso!');
-    onClose();
-    setFormData({ nome: '', avatar: '', posicao: '' });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +72,8 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
           </button>
         </div>
 
+        {feedback && <Feedback message={feedback.message} type={feedback.type} />}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-2">
@@ -78,7 +90,7 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
               autoFocus/>
           </div>
 
-          <div>
+            <div>
             <label className="block text-sm font-bold text-slate-700 mb-2">
               <User className="w-4 h-4 inline mr-2 text-amber-400" /> Avatar (URL da imagem)
             </label>
@@ -89,8 +101,8 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
               onChange={handleInputChange}
               className="w-full px-4 py-2 border-2 border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent font-semibold bg-white/80 text-slate-800 placeholder:italic placeholder:text-slate-400 shadow-sm"
               placeholder="https://exemplo.com/avatar.jpg"
-              required/>
-          </div>
+            />
+            </div>
 
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-2">

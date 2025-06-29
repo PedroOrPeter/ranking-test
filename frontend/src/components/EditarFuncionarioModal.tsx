@@ -21,6 +21,8 @@ const EditarFuncionarioModal: React.FC<EditarFuncionarioModalProps> = ({ isOpen,
     }
   }, [funcionario]);
 
+  const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
   if (!isOpen || !funcionario) return null;
 
   return (
@@ -28,16 +30,29 @@ const EditarFuncionarioModal: React.FC<EditarFuncionarioModalProps> = ({ isOpen,
       <div className="absolute inset-0 backdrop-blur-[3px] backdrop-brightness-75" style={{ zIndex: 1 }} aria-hidden="true"></div>
       <div className="relative z-10 bg-white text-slate-900 rounded-xl p-8 w-full max-w-lg mx-4 shadow-2xl border-2 border-amber-300 animate-fadeIn max-h-[90vh] overflow-y-auto flex flex-col scrollbar-none">
         <h3 className="text-2xl font-extrabold text-amber-500 mb-6 text-center">Editar Colaborador</h3>
+        {feedback && (
+          <div className={`mb-4 px-4 py-2 rounded text-sm font-bold ${feedback.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{feedback.message}</div>
+        )}
         <form
           onSubmit={async e => {
             e.preventDefault();
-            await fetch(`http://localhost:3000/funcionarios/${funcionario.id}`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nome, posicao, avatar })
-            });
-            onClose();
-            if (onSave) onSave();
+            setFeedback(null);
+            try {
+              const resp = await fetch(`http://localhost:3000/funcionarios/${funcionario.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, posicao, avatar })
+              });
+              if (!resp.ok) throw new Error('Erro ao editar colaborador.');
+              setFeedback({ message: 'Colaborador editado com sucesso!', type: 'success' });
+              setTimeout(() => {
+                setFeedback(null);
+                onClose();
+                if (onSave) onSave();
+              }, 1200);
+            } catch (error) {
+              setFeedback({ message: 'Erro ao editar colaborador. Tente novamente.', type: 'error' });
+            }
           }}
           className="space-y-6"
         >

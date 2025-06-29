@@ -29,6 +29,7 @@ export const criar: RequestHandler = async (req, res, next) => {
     const parse = funcionarioSchema.safeParse(req.body);
     if (!parse.success) {
       res.status(400).json({ error: parse.error.errors });
+      return
     }
     try {
       const novoFuncionario = await FuncionarioService.criar(parse.data);

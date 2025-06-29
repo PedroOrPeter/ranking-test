@@ -20,11 +20,23 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onClose();
-    setPontos(10);
-    setRazao('');
+    try {
+      await fetch(`http://localhost:3000/pontuacao/${funcionario.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          descricao: razao,
+          pontos: pontos
+        })
+      });
+      onClose();
+      setPontos(10);
+      setRazao('');
+    } catch (error) {
+      alert('Erro ao atribuir pontos');
+    }
   };
 
   const ajustarPontos = (increment: number) => {

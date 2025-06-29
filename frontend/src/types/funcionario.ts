@@ -1,5 +1,6 @@
 export interface Tarefa {
-  nome: string;
+  id?: number;
+  descricao: string;
   pontos: number;
   status: 'completo' | 'pendente';
 }

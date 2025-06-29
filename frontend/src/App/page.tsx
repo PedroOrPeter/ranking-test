@@ -1,4 +1,3 @@
-
 import React, { useState} from 'react';
 
 import CardFuncionario from '../Components/CardFuncionario';
@@ -10,13 +9,7 @@ import { useFuncionarios } from '../hooks/useFuncionarios';
 import type { Funcionario } from '../Types/funcionario';
 
 const Index = () => {
-  const {
-    funcionarios,
-    loading,
-    error,
-    fetchFuncionarios: refetch,
-    removeFuncionario,
-  } = useFuncionarios();
+  const {funcionarios, loading,error, fetchFuncionarios: refetch, removeFuncionario,} = useFuncionarios();
   const [selectedFuncionario, setSelectedFuncionario] = useState<Funcionario | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showAtribuirModal, setShowAtribuirModal] = useState(false);
@@ -31,16 +24,17 @@ const Index = () => {
     }
   }, [funcionarios]);
 
-
   if (loading) {
     return <div className="flex min-h-screen w-full items-center justify-center text-white text-xl">Carregando funcionarios...</div>;
   }
   if (error) {
     return <div className="flex min-h-screen w-full items-center justify-center text-red-400 text-xl">{error}</div>;
   }
+  
+  const funcionariosOrdenados = [...funcionarios].sort((a, b) => b.pontos - a.pontos);
 
   return (
-    <div className="fixed inset-0 min-h-screen w-full bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] p-8 overflow-auto">
+    <div className="fixed inset-0 min-h-screen w-full bg-gradient-to-br from-[#6a4fb3] via-[#8f6fc2] to-[#b993d6] p-8 overflow-auto">
       <div className="w-full min-h-screen space-y-12">
         <div className="text-center space-y-4">
           <h1 className="text-5xl font-extrabold text-amber-400 mb-2 tracking-tight drop-shadow-lg">
@@ -65,13 +59,21 @@ const Index = () => {
             {selectedFuncionario && (
               <CardFuncionario
                 {...selectedFuncionario}
-                tarefas={selectedFuncionario.tarefas ?? []}
+                tarefas={
+                  (selectedFuncionario.tarefas ?? []).map(tarefa => ({
+                    descricao: tarefa.descricao,
+                    pontos: tarefa.pontos,
+                    status: tarefa.status,
+                    id: tarefa.id,
+                  }))
+                }
+                refetchTarefas={refetch}
               />
             )}
           </div>
           <div className="flex-grow w-full lg:w-2/3">
             <FuncionarioList
-              funcionarios={funcionarios}
+              funcionarios={funcionariosOrdenados}
               selectedId={selectedFuncionario?.id ?? null}
               onSelect={setSelectedFuncionario}
               onAtribuir={funcionario => {
@@ -84,6 +86,10 @@ const Index = () => {
                   await removeFuncionario(funcionario.id);
                   refetch();
                 }
+              }}
+              renderRanking={(id: number) => {
+                const idx = funcionariosOrdenados.findIndex(f => f.id === id);
+                return idx > -1 ? idx + 1 : null;
               }}
             />
           </div>

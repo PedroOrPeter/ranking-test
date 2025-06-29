@@ -10,7 +10,8 @@ export async function getFuncionarios(): Promise<Funcionario[]> {
     ...f,
     conquistas: f.conquistas ?? [],
     tarefas: (f.pontuacoes ?? []).map((p: any) => ({
-      nome: p.descricao,
+      id: p.id,
+      descricao: p.descricao,
       pontos: p.pontos,
       status: 'completo',
     })),

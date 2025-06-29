@@ -9,22 +9,32 @@ interface FuncionarioListProps {
   onAtribuir: (funcionario: Funcionario) => void;
   onEditar: (funcionario: Funcionario) => void;
   onExcluir: (funcionario: Funcionario) => void;
+  renderRanking?: (id: number) => number | null;
 }
 
-const FuncionarioList: React.FC<FuncionarioListProps> = ({ funcionarios, selectedId, onSelect, onAtribuir, onEditar, onExcluir }) => (
-  <div className="space-y-4">
-    {funcionarios.map(funcionario => (
-      <FuncionarioItem
-        key={funcionario.id || funcionario.nome}
-        funcionario={funcionario}
-        isSelected={selectedId === funcionario.id}
-        onSelect={() => onSelect(funcionario)}
-        onAtribuir={() => onAtribuir(funcionario)}
-        onEditar={() => onEditar(funcionario)}
-        onExcluir={() => onExcluir(funcionario)}
-      />
-    ))}
-  </div>
-);
+
+const FuncionarioList: React.FC<FuncionarioListProps> = ({ funcionarios, selectedId, onSelect, onAtribuir, onEditar, onExcluir, renderRanking }) => {
+  const handleSelect = React.useCallback((funcionario: Funcionario) => () => onSelect(funcionario), [onSelect]);
+  const handleAtribuir = React.useCallback((funcionario: Funcionario) => () => onAtribuir(funcionario), [onAtribuir]);
+  const handleEditar = React.useCallback((funcionario: Funcionario) => () => onEditar(funcionario), [onEditar]);
+  const handleExcluir = React.useCallback((funcionario: Funcionario) => () => onExcluir(funcionario), [onExcluir]);
+
+  return (
+    <div className="space-y-4">
+      {funcionarios.map((funcionario) => (
+        <FuncionarioItem
+          key={funcionario.id || funcionario.nome}
+          funcionario={funcionario}
+          isSelected={selectedId === funcionario.id}
+          onSelect={handleSelect(funcionario)}
+          onAtribuir={handleAtribuir(funcionario)}
+          onEditar={handleEditar(funcionario)}
+          onExcluir={handleExcluir(funcionario)}
+          ranking={renderRanking ? (renderRanking(funcionario.id) ?? undefined) : undefined}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default FuncionarioList;
