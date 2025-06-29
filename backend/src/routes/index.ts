@@ -1,10 +1,24 @@
 import { Router } from 'express';
 import funcionariosRoutes from './funcionarios.routes';
 import pontuacaoRoutes from './pontuacao.routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API Ranking',
+      version: '1.0.0',
+      description: 'Documentação da API Ranking',
+    },
+  },
+  apis: ['./src/routes/*.ts', './src/controllers/*.ts'], // ajuste os caminhos conforme necessário
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 const router = Router();
 
 router.use('/funcionarios', funcionariosRoutes);
 router.use('/pontuacao', pontuacaoRoutes);
-
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 export default router;
