@@ -1,13 +1,17 @@
 import express from "express";
+import cors from "cors";
+import routes from "./routes";
+import dotenv from 'dotenv';
+
+dotenv.config();
+const PORT = process.env.PORT || 3001;
 
 const app = express();
-const PORT = 3001;
 
+app.use(cors());
 app.use(express.json());
+app.use(routes);
 
-app.get("/", (_req, res) => {
-  res.send("Servidor rodando com Node + TypeScript 🚀");
-});
 
 app.listen(PORT, () => {
   console.log(`Servidor online: http://localhost:${PORT}`);
