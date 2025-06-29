@@ -21,9 +21,9 @@ const FuncionarioItem: React.FC<FuncionarioItemProps> = ({ funcionario, isSelect
     onClick={onSelect}
     style={isSelected ? { boxShadow: '0 0 0 4px #fbbf24, 0 8px 32px 0 rgba(251,191,36,0.15)' } : {}}
   >
-    {ranking && ranking <= 3 && (
+    {ranking && (
       <div className={`flex items-center justify-center w-8 h-8 rounded-full font-extrabold text-lg mr-4 ${
-        ranking === 1 ? 'bg-amber-400 text-white' : ranking === 2 ? 'bg-slate-300 text-slate-800' : 'bg-amber-700 text-white'
+        ranking === 1 ? 'bg-amber-400 text-white' : ranking === 2 ? 'bg-slate-300 text-slate-800' : ranking === 3 ? 'bg-amber-700 text-white' : 'bg-slate-200 text-slate-700'
       }`}>
         {ranking}
       </div>

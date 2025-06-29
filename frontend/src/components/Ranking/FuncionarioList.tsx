@@ -13,7 +13,7 @@ interface FuncionarioListProps {
 }
 
 
-const FuncionarioList: React.FC<FuncionarioListProps> = ({ funcionarios, selectedId, onSelect, onAtribuir, onEditar, onExcluir, renderRanking }) => {
+const FuncionarioList: React.FC<FuncionarioListProps> = ({ funcionarios, selectedId, onSelect, onAtribuir, onEditar, onExcluir }) => {
   const handleSelect = React.useCallback((funcionario: Funcionario) => () => onSelect(funcionario), [onSelect]);
   const handleAtribuir = React.useCallback((funcionario: Funcionario) => () => onAtribuir(funcionario), [onAtribuir]);
   const handleEditar = React.useCallback((funcionario: Funcionario) => () => onEditar(funcionario), [onEditar]);
@@ -21,7 +21,7 @@ const FuncionarioList: React.FC<FuncionarioListProps> = ({ funcionarios, selecte
 
   return (
     <div className="space-y-4">
-      {funcionarios.map((funcionario) => (
+      {funcionarios.map((funcionario, idx) => (
         <FuncionarioItem
           key={funcionario.id || funcionario.nome}
           funcionario={funcionario}
@@ -30,7 +30,7 @@ const FuncionarioList: React.FC<FuncionarioListProps> = ({ funcionarios, selecte
           onAtribuir={handleAtribuir(funcionario)}
           onEditar={handleEditar(funcionario)}
           onExcluir={handleExcluir(funcionario)}
-          ranking={renderRanking ? (renderRanking(funcionario.id) ?? undefined) : undefined}
+          ranking={idx + 1}
         />
       ))}
     </div>
