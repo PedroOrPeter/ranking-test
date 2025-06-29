@@ -5,7 +5,7 @@ interface Funcionario {
   nome: string;
   pontos: number;
   avatar: string;
-  role: string;
+  posicao: string;
   emblemas: string[];
 }
 
@@ -65,7 +65,7 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
           />
           <div>
             <h4 className="font-semibold text-slate-800">{funcionario.nome}</h4>
-            <p className="text-sm text-slate-600">{funcionario.role}</p>
+            <p className="text-sm text-slate-600">{funcionario.posicao}</p>
             <p className="text-sm text-amber-600">{funcionario.pontos} pontos atuais</p>
           </div>
         </div>

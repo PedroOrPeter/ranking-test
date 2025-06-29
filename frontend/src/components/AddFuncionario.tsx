@@ -10,7 +10,7 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
-    role: ''
+    posicao: ''
   });
 
   if (!isOpen) return null;
@@ -18,7 +18,7 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onClose();
-    setFormData({ nome: '', email: '', role: '' });
+    setFormData({ nome: '', email: '', posicao: '' });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,8 +81,8 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
             </label>
             <input
               type="text"
-              name="role"
-              value={formData.role}
+              name="posicao"
+              value={formData.posicao}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               placeholder="Ex: Desenvolvedor, Designer, etc."

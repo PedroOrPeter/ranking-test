@@ -8,7 +8,7 @@ interface Funcionario {
   nome: string;
   pontos: number;
   avatar: string;
-  role: string;
+  posicao: string;
   emblemas: string[];
 }
 
@@ -23,7 +23,7 @@ const QuadroDePontos = () => {
         nome: 'Pedro Silva',
         pontos: 150,
         avatar: 'https://google.com/',
-        role: 'Desenvolvedor Frontend',
+        posicao: 'Desenvolvedor Frontend',
         emblemas: ['Inovador', 'Colaborador']
     }
   ];
@@ -84,7 +84,7 @@ const QuadroDePontos = () => {
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold text-slate-800">{funcionario.nome}</h3>
-                  <p className="text-sm text-slate-600">{funcionario.role}</p>
+                  <p className="text-sm text-slate-600">{funcionario.posicao}</p>
                   <div className="flex gap-1 mt-1">
                     {funcionario.emblemas.map((badge, idx) => (
                       <span key={idx} className="text-xs bg-white px-2 py-1 rounded-full text-slate-700 shadow-sm">

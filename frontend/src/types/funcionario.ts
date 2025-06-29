@@ -7,7 +7,7 @@ export interface Tarefa {
 export interface Funcionario {
   id: number;
   nome: string;
-  role: string;
+  posicao: string;
   pontos: number;
   avatar: string;
   conquistas: string[];

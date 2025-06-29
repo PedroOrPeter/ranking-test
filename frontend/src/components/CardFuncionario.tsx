@@ -2,14 +2,14 @@ import { Trophy, Target, Award } from 'lucide-react';
 
 interface FuncionarioCardProps {
   nome: string;
-  role: string;
+  posicao: string;
   pontos: number;
   avatar: string;
   conquistas: string[];
   tarefas: { nome: string; pontos: number; status: 'completo' | 'pendente' }[];
 }
 
-const CardFuncionario = ({ nome, role, pontos, avatar, conquistas, tarefas }: FuncionarioCardProps) => {
+const CardFuncionario = ({ nome, posicao, pontos, avatar, conquistas, tarefas }: FuncionarioCardProps) => {
   return (
     <div className="p-6 bg-gradient-to-br from-slate-50 to-slate-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rounded-lg border border-slate-200 shadow-sm">
       <div className="flex flex-col items-center text-center space-y-4">
@@ -26,7 +26,7 @@ const CardFuncionario = ({ nome, role, pontos, avatar, conquistas, tarefas }: Fu
         
         <div>
           <h3 className="text-xl font-bold text-slate-800">{nome}</h3>
-          <p className="text-slate-600 text-sm">{role}</p>
+          <p className="text-slate-600 text-sm">{posicao}</p>
         </div>
 
         <div className="bg-amber-100 px-4 py-2 rounded-full">
