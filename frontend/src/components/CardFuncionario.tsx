@@ -6,10 +6,10 @@ interface FuncionarioCardProps {
   pontos: number;
   avatar: string;
   conquistas: string[];
-  tasks: { nome: string; pontos: number; status: 'completo' | 'pendente' }[];
+  tarefas: { nome: string; pontos: number; status: 'completo' | 'pendente' }[];
 }
 
-const CardFuncionario = ({ nome, role, pontos, avatar, conquistas, tasks }: FuncionarioCardProps) => {
+const CardFuncionario = ({ nome, role, pontos, avatar, conquistas, tarefas }: FuncionarioCardProps) => {
   return (
     <div className="p-6 bg-gradient-to-br from-slate-50 to-slate-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rounded-lg border border-slate-200 shadow-sm">
       <div className="flex flex-col items-center text-center space-y-4">
@@ -38,16 +38,16 @@ const CardFuncionario = ({ nome, role, pontos, avatar, conquistas, tasks }: Func
             <Target className="w-4 h-4" />
             Tarefas Recentes
           </h4>
-          {tasks.map((task, index) => (
+          {tarefas.map((tarefa, index) => (
             <div key={index} className="flex justify-between items-center bg-white p-2 rounded-md">
-              <span className="text-sm text-slate-700">{task.nome}</span>
+              <span className="text-sm text-slate-700">{tarefa.nome}</span>
               <div className="flex items-center gap-2">
                 <span className={`text-xs px-2 py-1 rounded-full ${
-                  task.status === 'completo' 
+                  tarefa.status === 'completo' 
                     ? 'bg-green-100 text-green-800' 
                     : 'bg-yellow-100 text-yellow-800'
                 }`}>
-                  {task.status === 'completo' ? '+' : ''}{task.pontos}pts
+                  {tarefa.status === 'completo' ? '+' : ''}{tarefa.pontos}pts
                 </span>
               </div>
             </div>

@@ -1,4 +1,4 @@
-export interface Task {
+export interface Tarefa {
   nome: string;
   pontos: number;
   status: 'completo' | 'pendente';
@@ -11,5 +11,5 @@ export interface Funcionario {
   pontos: number;
   avatar: string;
   conquistas: string[];
-  tasks: Task[];
+  tarefas: Tarefa[];
 }
