@@ -3,12 +3,21 @@ const prisma = new PrismaClient();
 
 export class FuncionarioService {
   static async listar() {
-    return await prisma.funcionario.findMany();
+    return await prisma.funcionario.findMany({
+      include: {
+        pontuacoes: true,
+        conquistas: true,
+      },
+    });
   }
 
   static async detalhar(id: number) {
     return await prisma.funcionario.findUnique({
       where: { id },
+      include: {
+        pontuacoes: true,
+        conquistas: true,
+      },
     });
   }
   

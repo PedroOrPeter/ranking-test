@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, Mail, Briefcase } from 'lucide-react';
+import { X, User, Briefcase } from 'lucide-react';
 
 interface AddModalDeFuncionarioProps {
   isOpen: boolean;
@@ -9,16 +9,34 @@ interface AddModalDeFuncionarioProps {
 const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     nome: '',
-    email: '',
+    avatar: '',
     posicao: ''
   });
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try{
+      await fetch('http://localhost:3000/funcionarios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: formData.nome,
+          avatar: formData.avatar || 'https://static.vecteezy.com/system/resources/thumbnails/019/879/198/small/user-icon-on-transparent-background-free-png.png',
+          posicao: formData.posicao
+        })
+      });
+    } catch (error) {
+      console.error('Erro ao adicionar funcionário:', error);
+      alert('Erro ao adicionar funcionário. Tente novamente.');
+      return;
+    }
+    alert('Funcionário adicionado com sucesso!');
     onClose();
-    setFormData({ nome: '', email: '', posicao: '' });
+    setFormData({ nome: '', avatar: '', posicao: '' });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,79 +47,74 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-xl p-6 w-full max-w-lg mx-4 shadow-xl">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold text-slate-800">Adicionar Funcionario</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto pointer-events-auto">
+      <div className="absolute inset-0 backdrop-blur-[3px] backdrop-brightness-75" style={{ zIndex: 1 }} aria-hidden="true"></div>
+      <div className="relative z-10 bg-gradient-to-br from-yellow-50 via-white to-amber-100 rounded-2xl p-8 w-full max-w-lg mx-4 shadow-2xl border-2 border-amber-200 animate-fadeIn max-h-[90vh] overflow-y-auto flex flex-col scrollbar-none">
+        <div className="flex justify-between items-center mb-8">
+          <h3 className="text-2xl font-extrabold text-amber-500 tracking-tight flex items-center gap-2">
+            <User className="w-6 h-6 text-amber-400" /> Novo Colaborador
+          </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors"
-          >
-            <X className="w-6 h-6" />
+            className="text-slate-400 hover:text-amber-500 transition-colors rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            title="Fechar">
+            <X className="w-7 h-7" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              <User className="w-4 h-4 inline mr-2" />
-              Nome completo
+            <label className="block text-sm font-bold text-slate-700 mb-2">
+              <User className="w-4 h-4 inline mr-2 text-amber-400" /> Nome completo
             </label>
             <input
               type="text"
-              name="name"
+              name="nome"
               value={formData.nome}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-              placeholder="Digite o nome do Funcionario"
+              className="w-full px-4 py-2 border-2 border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent font-semibold bg-white/80 text-slate-800 placeholder:italic placeholder:text-slate-400 shadow-sm"
+              placeholder="Digite o nome do colaborador"
               required
-            />
+              autoFocus/>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              <Mail className="w-4 h-4 inline mr-2" />
-              Email
+            <label className="block text-sm font-bold text-slate-700 mb-2">
+              <User className="w-4 h-4 inline mr-2 text-amber-400" /> Avatar (URL da imagem)
             </label>
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              name="avatar"
+              value={formData.avatar}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-              placeholder="email@exemplo.com"
-              required
-            />
+              className="w-full px-4 py-2 border-2 border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent font-semibold bg-white/80 text-slate-800 placeholder:italic placeholder:text-slate-400 shadow-sm"
+              placeholder="https://exemplo.com/avatar.jpg"
+              required/>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              <Briefcase className="w-4 h-4 inline mr-2" />
-              Cargo
+            <label className="block text-sm font-bold text-slate-700 mb-2">
+              <Briefcase className="w-4 h-4 inline mr-2 text-amber-400" /> Cargo
             </label>
             <input
               type="text"
               name="posicao"
               value={formData.posicao}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="w-full px-4 py-2 border-2 border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent font-semibold bg-white/80 text-slate-800 placeholder:italic placeholder:text-slate-400 shadow-sm"
               placeholder="Ex: Desenvolvedor, Designer, etc."
-              required
-            />
+              required/>
           </div>
 
           <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
-            >
+              className="flex-1 px-4 py-2 border-2 border-amber-200 text-amber-600 rounded-lg hover:bg-amber-50 transition-colors font-bold shadow-sm">
               Cancelar
             </button>
             <button
-              type="submit"
-              className="flex-1 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
-            >
+              type="submit" className="flex-1 px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white rounded-lg hover:from-yellow-500 hover:to-amber-400 transition-colors font-bold shadow-md">
               Adicionar
             </button>
           </div>

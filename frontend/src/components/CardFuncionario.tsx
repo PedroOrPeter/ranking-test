@@ -57,7 +57,7 @@ const CardFuncionario = ({ nome, posicao, pontos, avatar, conquistas, tarefas }:
         <div className="w-full">
           <h4 className="font-semibold text-slate-700 mb-2 flex items-center gap-2">
             <Award className="w-4 h-4" />
-            Conquistas
+            Conquistas - Em breve
           </h4>
           <div className="flex flex-wrap gap-1">
             {conquistas.map((conquista, index) => (

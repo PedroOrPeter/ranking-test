@@ -6,7 +6,6 @@ interface Funcionario {
   pontos: number;
   avatar: string;
   posicao: string;
-  emblemas: string[];
 }
 
 interface PontosDeAtribuicaoModalProps {
@@ -45,51 +44,54 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold text-slate-800">Atribuir Pontos</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto pointer-events-auto">
+      <div className="absolute inset-0 backdrop-blur-[3px] backdrop-brightness-75" style={{ zIndex: 1 }} aria-hidden="true"></div>
+      <div className="relative z-10 bg-gradient-to-br from-yellow-50 via-white to-amber-100 rounded-2xl p-6 sm:p-8 w-full max-w-md sm:max-w-md mx-2 sm:mx-4 shadow-2xl border-2 border-amber-200 animate-fadeIn max-h-[90vh] overflow-y-auto flex flex-col scrollbar-none">
+        <div className="flex justify-between items-center mb-8">
+          <h3 className="text-2xl font-extrabold text-amber-500 tracking-tight flex items-center gap-2">
+            <Target className="w-6 h-6 text-amber-400" /> Atribuir Pontos
+          </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors"
+            className="text-slate-400 hover:text-amber-500 transition-colors rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            title="Fechar"
           >
-            <X className="w-6 h-6" />
+            <X className="w-7 h-7" />
           </button>
         </div>
 
-        <div className="flex items-center gap-3 mb-6 p-3 bg-slate-50 rounded-lg">
+        <div className="flex items-center gap-4 mb-8 p-4 bg-gradient-to-r from-amber-100 to-yellow-50 rounded-xl border border-amber-200 shadow-sm">
           <img
             src={funcionario.avatar}
             alt={funcionario.nome}
-            className="w-12 h-12 rounded-full object-cover"
+            className="w-14 h-14 rounded-full object-cover border-2 border-amber-300 shadow"
           />
           <div>
-            <h4 className="font-semibold text-slate-800">{funcionario.nome}</h4>
-            <p className="text-sm text-slate-600">{funcionario.posicao}</p>
-            <p className="text-sm text-amber-600">{funcionario.pontos} pontos atuais</p>
+            <h4 className="font-bold text-lg text-slate-800">{funcionario.nome}</h4>
+            <p className="text-sm text-slate-600 font-medium">{funcionario.posicao}</p>
+            <p className="text-sm text-amber-600 font-bold">{funcionario.pontos} pontos atuais</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              <Target className="w-4 h-4 inline mr-2" />
-              Pontos a atribuir
+            <label className="block text-sm font-bold text-slate-700 mb-2">
+              <Target className="w-4 h-4 inline mr-2 text-amber-400" /> Pontos a atribuir
             </label>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => ajustarPontos(-5)}
-                className="p-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+                className="p-2 border-2 border-amber-200 rounded-lg bg-white hover:bg-amber-50 transition-colors shadow-sm"
               >
-                <Minus className="w-4 h-4" />
+                <Minus className="w-4 h-4 text-amber-500" />
               </button>
               <div className="flex-1 text-center">
                 <input
                   type="number"
                   value={pontos}
                   onChange={(e) => setPontos(parseInt(e.target.value) || 0)}
-                  className="w-full text-center text-2xl font-bold py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full text-center text-2xl font-extrabold py-2 border-2 border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white/80 text-amber-700 shadow-sm"
                   min="-100"
                   max="100"
                 />
@@ -98,21 +100,21 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
               <button
                 type="button"
                 onClick={() => ajustarPontos(5)}
-                className="p-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+                className="p-2 border-2 border-amber-200 rounded-lg bg-white hover:bg-amber-50 transition-colors shadow-sm"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 text-amber-500" />
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-bold text-slate-700 mb-2">
               Motivo
             </label>
             <textarea
               value={razao}
               onChange={(e) => setRazao(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none"
+              className="w-full px-4 py-2 border-2 border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none font-semibold bg-white/80 text-slate-800 placeholder:italic placeholder:text-slate-400 shadow-sm"
               rows={3}
               placeholder="Descreva o motivo da pontuação..."
               required
@@ -120,14 +122,14 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
           </div>
 
           <div>
-            <p className="text-sm font-medium text-slate-700 mb-2">Motivos comuns:</p>
+            <p className="text-sm font-bold text-slate-700 mb-2">Motivos comuns:</p>
             <div className="flex flex-wrap gap-2">
               {presetRazao.map((presetRazao, index) => (
                 <button
                   key={index}
                   type="button"
                   onClick={() => setRazao(presetRazao)}
-                  className="text-xs px-3 py-1 bg-slate-100 text-slate-700 rounded-full hover:bg-slate-200 transition-colors"
+                  className="text-xs px-3 py-1 bg-gradient-to-r from-amber-100 to-yellow-50 text-amber-700 rounded-full hover:bg-amber-200 border border-amber-200 font-semibold shadow-sm transition-colors"
                 >
                   {presetRazao}
                 </button>
@@ -139,16 +141,16 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex-1 px-4 py-2 border-2 border-amber-200 text-amber-600 rounded-lg hover:bg-amber-50 transition-colors font-bold shadow-sm"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className={`flex-1 px-4 py-2 rounded-lg transition-colors text-white ${
+              className={`flex-1 px-4 py-2 rounded-lg transition-colors font-bold shadow-md text-white ${
                 pontos >= 0 
-                  ? 'bg-green-500 hover:bg-green-600' 
-                  : 'bg-red-500 hover:bg-red-600'
+                  ? 'bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-yellow-500 hover:to-amber-400' 
+                  : 'bg-gradient-to-r from-red-500 to-amber-400 hover:from-red-600 hover:to-amber-500'
               }`}
             >
               {pontos >= 0 ? `+${pontos}` : pontos} pontos
