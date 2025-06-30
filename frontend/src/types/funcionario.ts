@@ -2,7 +2,7 @@ export interface Tarefa {
   id?: number;
   descricao: string;
   pontos: number;
-  status: 'completo' | 'pendente';
+  status: 'completo';
 }
 
 export interface Funcionario {
