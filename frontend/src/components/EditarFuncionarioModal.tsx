@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Funcionario } from '../Types/funcionario';
+import { updateFuncionario } from '../api/funcionarios';
 
 interface EditarFuncionarioModalProps {
   isOpen: boolean;
@@ -23,6 +24,31 @@ const EditarFuncionarioModal: React.FC<EditarFuncionarioModalProps> = ({ isOpen,
 
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
+  const showFeedback = (message: string, type: 'success' | 'error') => {
+    setFeedback({ message, type });
+  };
+  
+  const handleCloseWithDelay = () => {
+    setTimeout(() => {
+      setFeedback(null);
+      onClose();
+      onSave?.();
+    }, 1200);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFeedback(null);
+    try {
+      await updateFuncionario(funcionario!.id, { nome, posicao, avatar });
+      showFeedback('Colaborador editado com sucesso!', 'success');
+      handleCloseWithDelay();
+    } catch (err) {
+      showFeedback('Erro ao editar colaborador. Tente novamente.', 'error');
+    }
+  };
+
+
   if (!isOpen || !funcionario) return null;
 
   return (
@@ -33,29 +59,7 @@ const EditarFuncionarioModal: React.FC<EditarFuncionarioModalProps> = ({ isOpen,
         {feedback && (
           <div className={`mb-4 px-4 py-2 rounded text-sm font-bold ${feedback.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{feedback.message}</div>
         )}
-        <form
-          onSubmit={async e => {
-            e.preventDefault();
-            setFeedback(null);
-            try {
-                const resp = await fetch(`${import.meta.env.VITE_API_URL}/funcionarios/${funcionario.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome, posicao, avatar })
-              });
-              if (!resp.ok) throw new Error('Erro ao editar colaborador.');
-              setFeedback({ message: 'Colaborador editado com sucesso!', type: 'success' });
-              setTimeout(() => {
-                setFeedback(null);
-                onClose();
-                if (onSave) onSave();
-              }, 1200);
-            } catch (error) {
-              setFeedback({ message: 'Erro ao editar colaborador. Tente novamente.', type: 'error' });
-            }
-          }}
-          className="space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-2">Nome</label>
             <input

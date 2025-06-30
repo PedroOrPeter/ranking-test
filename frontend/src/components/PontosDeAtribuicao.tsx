@@ -1,5 +1,7 @@
 import { X, Target, Plus, Minus } from 'lucide-react';
 import React, { useState } from 'react';
+import { atribuirPontuacao } from '../api/tarefas';
+
 interface Funcionario {
   id: number;
   nome: string;
@@ -23,14 +25,11 @@ const AtribuicaoDePontosModal = ({ isOpen, onClose, funcionario }: PontosDeAtrib
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-        await fetch(`${import.meta.env.VITE_API_URL}/pontuacao/${funcionario.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          descricao: razao,
-          pontos: pontos
-        })
-      });
+        await atribuirPontuacao(
+          funcionario.id, 
+          { 
+            descricao: razao, pontos 
+          });
       onClose();
       setPontos(10);
       setRazao('');

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, User, Briefcase } from 'lucide-react';
+import { createFuncionario } from '../api/funcionarios';
 
 const Feedback: React.FC<{ message: string; type?: 'success' | 'error' }> = ({ message, type = 'success' }) => (
   <div className={`mb-4 px-4 py-2 rounded text-sm font-bold ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{message}</div>
@@ -24,20 +25,11 @@ const AddFuncionarioModal: React.FC<AddModalDeFuncionarioProps> = ({ isOpen, onC
     e.preventDefault();
     setFeedback(null);
     try {
-        const resp = await fetch(`${import.meta.env.VITE_API_URL}/funcionarios`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+        await createFuncionario({
           nome: formData.nome,
           avatar: formData.avatar || 'https://static.vecteezy.com/system/resources/thumbnails/019/879/198/small/user-icon-on-transparent-background-free-png.png',
-          posicao: formData.posicao
-        })
-      });
-      if (!resp.ok) {
-        throw new Error('Erro ao adicionar funcionário.');
-      }
+          posicao: formData.posicao,
+        });
       setFeedback({ message: 'Funcionário adicionado com sucesso!', type: 'success' });
       setTimeout(() => {
         setFeedback(null);

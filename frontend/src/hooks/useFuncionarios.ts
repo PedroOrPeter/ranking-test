@@ -1,11 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Funcionario } from '../Types/funcionario';
-import {
-  getFuncionarios,
-  createFuncionario,
-  updateFuncionario,
-  deleteFuncionario
-} from '../api/funcionarios';
+import { getFuncionarios, createFuncionario, updateFuncionario, deleteFuncionario } from '../api/funcionarios';
 
 export function useFuncionarios() {
   const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);

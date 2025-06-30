@@ -41,15 +41,14 @@ const Index = () => {
             U4HERO Ranking
           </h1>
           <p className="text-slate-200 text-lg italic">
-            Reconhecer os colaboradores é o sucessoo de um time
+            Reconhecer os colaboradores é o sucesso de um time
           </p>
         </div>
 
         <div className="flex justify-end mb-6">
           <button
             onClick={() => setShowAddModal(true)}
-            className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-yellow-500 hover:to-amber-400 text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg transition-all duration-200 flex items-center gap-2"
-          >
+            className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-yellow-500 hover:to-amber-400 text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg transition-all duration-200 flex items-center gap-2">
             <span className="text-lg">+</span> Novo Colaborador
           </button>
         </div>
@@ -84,7 +83,6 @@ const Index = () => {
               onExcluir={async funcionario => {
                 if (window.confirm(`Tem certeza que deseja excluir ${funcionario.nome}?`)) {
                   await removeFuncionario(funcionario.id);
-                  refetch();
                 }
               }}
               renderRanking={(id: number) => {
