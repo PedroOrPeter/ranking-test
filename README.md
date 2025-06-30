@@ -26,7 +26,7 @@ npm install
 ### Configure o banco de dados
 - Edite o arquivo `.env` na pasta `backend` com sua string de conexão do PostgreSQL:
   ```env
-  DATABASE_URL="postgresql://usuario:senha@localhost:5432/u4hero"
+  DATABASE_URL="mysql://root:@localhost:3306/u4hero_ranking"
   ```
 
 ### Crie o banco de dados e rode as migrations:
@@ -85,3 +85,10 @@ Acesse `http://localhost:3000/api-docs` para visualizar a documentação Swagger
   ```
 
 ---
+
+## Novas Funcionalidades
+**Conquistas**
+Pretendo inserir, como já é possível verificar, conquistas dentro do sistema. A ideia é fazer com que conquistas vire algo bem importante, como *10 Vendas em 1 semana* e ai o usuário poderia ser sinalizado com uma conquista por isso. Enfim, é algo que vou incrementar e infelizmente ainda não deu tempo.
+
+**Hospedagem Vercel**
+Pretendo hospedar em breve na Vercel, para isso, gostaria da aplicação mais robusta e preparada para requisições em massa
